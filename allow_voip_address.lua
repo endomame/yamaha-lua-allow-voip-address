@@ -2,6 +2,9 @@
 -- 前提条件
 -- 文字コードはascii
 -- LuaのバージョンはLua 5.1.4以降
+-- フィルター設定は以下を前提とする
+-- 5060ポートに対するtcp,udp両方をブロックしなければならないため
+-- ip filter 200081 pass * * tcp,udp * 5060
 --
 -- 変数設定 -----------------------------
 -- nslookup対象のIPアドレスを設定
@@ -40,9 +43,9 @@ while true do
     -- 組み立てたIPアドレスの改行を削除
     command_hostname_result = string.gsub(command_hostname_result, "\r\n", "" )
     -- フィルタ設定コマンド作成
-    filter_command = "ip filter ".. filter_number .. " pass " .. command_hostname_result .. " * tcp * 5060"
+    filter_command = "ip filter ".. filter_number .. " pass " .. command_hostname_result .. " * tcp,upd * 5060"
     -- 設定されている内容と同一の場合は設定を中止するための比較用フィルタ設定を取得
-    search_filter_command= "ip filter ".. filter_number .. " pass " .. command_hostname_result .. " %* tcp %* 5060"
+    search_filter_command= "ip filter ".. filter_number .. " pass " .. command_hostname_result .. " %* tcp,udp %* 5060"
 
     -- 設定されているフィルタ内容との比較
     match_setting_filter = nil
