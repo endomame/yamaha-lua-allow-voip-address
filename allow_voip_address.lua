@@ -61,10 +61,6 @@ while true do
         if ( status_analog ) then
           -- フィルタを設定
           rtn, str = rt.command(filter_command)
-            -- コマンドが正常終了すればsavaを実施
-            if rtn then
-              rtn, str = rt.command("save")
-            end
         end
       end
     end
